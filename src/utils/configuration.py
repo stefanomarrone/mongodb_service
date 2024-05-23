@@ -6,7 +6,6 @@ class Configuration(metaclass=Singleton):
     def __init__(self):
         pass
 
-
     def __init__(self, inifilename):
         self.board = dict()
         self.load(inifilename)
@@ -21,20 +20,12 @@ class Configuration(metaclass=Singleton):
         reader = ConfigParser()
         try:
             reader.read(inifile)
-            temp = reader['board']['boardconstants']
-            self.put('boardconstants',temp)
-            temp = reader['board']['jsonfilename']
-            self.put('jsonfilename',temp)
-            temp = reader['board']['kind']
-            self.put('board',temp)
-            temp = reader['board']['port']
-            self.put('port',temp)
-            temp = reader['board']['timeout']
-            self.put('timeout',int(temp))
-            temp = reader['board']['applicationport']
+            temp = reader['server']['product_dbname']
+            self.put('product',temp)
+            temp = reader['server']['model_dbname']
+            self.put('model',temp)
+            temp = reader['server']['applicationport']
             self.put('applicationport',int(temp))
-            temp = reader['board']['baudrate']
-            self.put('baudrate',int(temp))
         except Exception as s:
             print(s)
 
