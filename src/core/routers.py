@@ -38,3 +38,14 @@ def getmbmodel(identifier: int, version: int) -> dict:
     store = Storage(router.configuration)
     retval = store.getMBModel(identifier, version)
     return { "success": retval is not None, "content": retval}
+
+
+@router.post("/matforpat")
+def postrepomodel(configuration_name: str, file: UploadFile = File(...)) -> dict:
+    #todo: complete the method
+    return {"success": True}
+
+@router.get("/matforpat", responses={200: {"content": {"application/x-binary": {}}}}, response_class=Response)
+def getrepomodel(identifier: int, version: int) -> dict:
+    #todo: complete the method
+    return {"success": True}

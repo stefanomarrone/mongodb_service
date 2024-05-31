@@ -18,16 +18,18 @@ class Configuration(metaclass=Singleton):
         reader = ConfigParser()
         try:
             reader.read(inifile)
-            temp = reader['mongodb']['product_dbname']
-            self.put('product', temp)
-            temp = reader['mongodb']['model_dbname']
-            self.put('model', temp)
+            temp = reader['server']['applicationport']
+            self.put('applicationport', int(temp))
             temp = reader['mongodb']['address']
             self.put('mongo_address', temp)
             temp = reader['mongodb']['port']
             self.put('mongo_port', int(temp))
-            temp = reader['server']['applicationport']
-            self.put('applicationport', int(temp))
+            temp = reader['cosyma']['product_dbname']
+            self.put('product', temp)
+            temp = reader['cosyma']['model_dbname']
+            self.put('model', temp)
+            temp = reader['mat4pat']['dbname']
+            self.put('mat4pat', temp)
         except Exception as s:
             print(s)
 
