@@ -4,10 +4,6 @@ from src.core.storing import Storage
 
 router = APIRouter()
 
-@router.get("/sanitycheck")
-def sanitycheck() -> dict:
-    return { "message": True}
-
 @router.get("/clean")
 def cleandb() -> dict:
     store = Storage(router.configuration)
