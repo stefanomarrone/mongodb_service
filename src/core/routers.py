@@ -21,7 +21,6 @@ def getddmodel(identifier: int, version: int) -> dict:
     store = Storage(router.configuration)
     retval = store.getDDModel(identifier, version)
     return Response(retval, media_type="application/x-binary")
-    #return { "success": retval is not None, "content": retval}
 
 @router.post("/mbmodels")
 def postmbmodel(identifier: int, version: int, file: UploadFile = File(...)) -> dict:
@@ -37,10 +36,6 @@ def getmbmodel(identifier: int, version: int) -> dict:
 
 @router.post("/matforpat")
 def postrepomodel(configuration_name: str, file: UploadFile = File(...)) -> dict:
-    #todo: complete the method
-    return {"success": True}
-
-@router.get("/matforpat", responses={200: {"content": {"application/x-binary": {}}}}, response_class=Response)
-def getrepomodel(configuration_name: str) -> dict:
-    #todo: complete the method
+    store = Storage(router.configuration)
+    store.postImg(configuration_name, file)
     return {"success": True}
