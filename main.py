@@ -10,7 +10,7 @@ def main(inifilename):
     app = FastAPI()
     app.include_router(router)
     router.configuration = conf
-    uvicorn.run(app, host='193.206.101.14', port=applicationport) #todo: put in configuration
+    uvicorn.run(app, host='192.168.8.116', port=applicationport) #todo: put in configuration
 
 
 if __name__ == "__main__":
