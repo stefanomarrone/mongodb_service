@@ -66,6 +66,7 @@ class Storage:
             db = self.client.cosyma_kb
             query = db[collection].insert_one(dictionary)
             filesystem = gridfs.GridFS(db)
+            #todo: fix in repo4pat --> one entry for different files
             filesystem.put(files.file, filename=files.filename, identifier=query.inserted_id)
             retval = True
         return retval
