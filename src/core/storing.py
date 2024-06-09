@@ -40,7 +40,7 @@ class Storage:
 
     def postImg(self, identifier, file: UploadFile):
         dbname = self.databases['mat4pat']
-        return self._post(dbname, self.image_collection_name, file, self.existignore, identifier)
+        return self._post(dbname, self.image_collection_name, file, self.exists, identifier)
 
     def _get(self, database, collection, identifier, version):
         retval = None
@@ -60,6 +60,11 @@ class Storage:
         query = db[collection].find(dictionary)
         return len(list(query)) > 0
 
+    def getID(self, database, collection, dictionary):
+        db = self.client[database]
+        query = db[collection].find_one(dictionary)
+        return query['_id']
+
     def existignore(self, database, collection, dictionary):
         return False
 
@@ -67,13 +72,15 @@ class Storage:
         retval = False
         dictionary = self.preparingquery(identifier, version)
         exists = existing(database, collection, dictionary)
+        db = self.client[database]
         if not exists:
-            db = self.client[database]
             query = db[collection].insert_one(dictionary)
-            filesystem = gridfs.GridFS(db)
-            #todo: fix in repo4pat --> one entry for different files
-            filesystem.put(files.file, filename=files.filename, identifier=query.inserted_id)
-            retval = True
+            id = query.inserted_id
+        else:
+            id = self.getID(database, collection, dictionary)
+        filesystem = gridfs.GridFS(db)
+        filesystem.put(files.file, filename=files.filename, identifier=id)
+        retval = True #todo: refactor this
         return retval
 
     def preparingquery(self, identifier, version = None):
