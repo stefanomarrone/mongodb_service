@@ -7,6 +7,7 @@ class Storage:
     def __init__(self, configuration):
         server_address = configuration.get('mongo_address')
         server_port = configuration.get('mongo_port')
+        self.databases = configuration.get('databases')
         self.image_collection_name = configuration.get('mat4pat')
         self.products_collection_name = configuration.get('product')
         self.models_collection_name = configuration.get('model')
@@ -22,26 +23,31 @@ class Storage:
 
 
     def postDDModel(self, identifier, version, file):
-        return self._post(self.models_collection_name, file, self.exists, identifier, version)
+        dbname = self.databases['cosyma']
+        return self._post(dbname, self.models_collection_name, file, self.exists, identifier, version)
 
     def postMBModel(self, identifier, version, file):
-        return self._post(self.products_collection_name, file, self.exists, identifier, version)
+        dbname = self.databases['cosyma']
+        return self._post(dbname, self.products_collection_name, file, self.exists, identifier, version)
 
     def getDDModel(self, identifier, version):
-        return self._get(self.models_collection_name, identifier, version)
+        dbname = self.databases['cosyma']
+        return self._get(dbname, self.models_collection_name, identifier, version)
 
     def getMBModel(self, identifier, version):
-        return self._get(self.products_collection_name, identifier, version)
+        dbname = self.databases['cosyma']
+        return self._get(dbname, self.products_collection_name, identifier, version)
 
     def postImg(self, identifier, file: UploadFile):
-        return self._post(self.image_collection_name, file, self.existignore, identifier)
+        dbname = self.databases['mat4pat']
+        return self._post(dbname, self.image_collection_name, file, self.existignore, identifier)
 
-    def _get(self, collection, identifier, version):
+    def _get(self, database, collection, identifier, version):
         retval = None
         dictionary = self.preparingquery(identifier, version)
-        exists = self.exists(collection, dictionary)
+        exists = self.exists(database, collection, dictionary)
         if exists:
-            db = self.client.cosyma_kb
+            db = self.client[database]
             query = db[collection].find(dictionary)
             filesystem = gridfs.GridFS(db)
             results = query[0]
@@ -49,21 +55,20 @@ class Storage:
             retval = file.read()
         return retval
 
-    def exists(self, collection, dictionary):
-        db = self.client.cosyma_kb
+    def exists(self, database, collection, dictionary):
+        db = self.client[database]
         query = db[collection].find(dictionary)
         return len(list(query)) > 0
 
-    def existignore(self, collection, dictionary):
+    def existignore(self, database, collection, dictionary):
         return False
 
-    def _post(self, collection, files, existing, identifier, version = None):
+    def _post(self, database, collection, files, existing, identifier, version = None):
         retval = False
         dictionary = self.preparingquery(identifier, version)
-        exists = existing(collection, dictionary)
+        exists = existing(database, collection, dictionary)
         if not exists:
-            #todo: to fix it. different projects, different databases
-            db = self.client.cosyma_kb
+            db = self.client[database]
             query = db[collection].insert_one(dictionary)
             filesystem = gridfs.GridFS(db)
             #todo: fix in repo4pat --> one entry for different files

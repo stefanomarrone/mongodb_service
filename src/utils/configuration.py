@@ -32,6 +32,9 @@ class Configuration(metaclass=Singleton):
             self.put('model', temp)
             temp = reader['mat4pat']['dbname']
             self.put('mat4pat', temp)
+            mat4pat_database = reader['mat4pat']['database']
+            cosyma_database = reader['cosyma']['database']
+            self.put('databases', {'cosyma': cosyma_database, 'mat4pat': mat4pat_database})
         except Exception as s:
             print(s)
 
