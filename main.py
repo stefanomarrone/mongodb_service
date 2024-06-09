@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from src.core.routers import router
 from src.utils.configuration import Configuration
 
+
 def main(inifilename):
     conf = Configuration(inifilename)
     applicationport = conf.get('applicationport')
@@ -12,6 +13,7 @@ def main(inifilename):
     app.include_router(router)
     router.configuration = conf
     uvicorn.run(app, host=applicationip, port=applicationport)
+
 
 if __name__ == "__main__":
     main(sys.argv[1])
