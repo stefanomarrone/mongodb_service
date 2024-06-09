@@ -20,6 +20,8 @@ class Configuration(metaclass=Singleton):
             reader.read(inifile)
             temp = reader['server']['applicationport']
             self.put('applicationport', int(temp))
+            temp = reader['server']['applicationip']
+            self.put('applicationip', temp)
             temp = reader['mongodb']['address']
             self.put('mongo_address', temp)
             temp = reader['mongodb']['port']
