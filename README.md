@@ -23,16 +23,19 @@ The **config.ini** file contains the configuration data of the program. A sample
 ```
 [server]
 applicationport = 1812 #port of the service
+applicationip = 127.0.0.1 #ip address of the service
 
 [mongodb]
 address = 127.0.0.1 #address of the mongodb container
 port = 27017 #port of the mongodb container
 
 [cosyma]
+database = cosyma
 product_dbname = products
 model_dbname = models
 
 [mat4pat]
+database = mat4pat
 dbname = repos
 ```
 ## Running
@@ -63,9 +66,9 @@ To run the program:
 * **POST /matforpat**: add the structure of the model describing the structure of a system to the repository *products* 
   catalog of the database
   * *configuration_name* - string: name of the configuration
-  * file to upload - contianing the configuration of the **matforpat** tool to process 
+  * file to upload - containing the configuration of the **matforpat** tool to process 
 * **GET /matforpat**: retrieve a system model from the *products* catalog of the database
-  * *configuration_name* - string: nam of the configuration whose output are to retrive
+  * *configuration_name* - string: nam of the configuration whose output are to retrieve
 
 
 ## Projects
