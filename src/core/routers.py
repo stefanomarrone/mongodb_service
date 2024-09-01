@@ -8,6 +8,7 @@ router = APIRouter()
 def cleandb() -> dict:
     store = Storage(router.configuration)
     store.reset()
+    store.reset_files()
     return {"success": True}
 
 @router.post("/ddmodels")

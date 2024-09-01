@@ -19,7 +19,9 @@ class Storage:
         db[self.image_collection_name].delete_many({})
         db[self.products_collection_name].delete_many({})
         db[self.models_collection_name].delete_many({})
-        db['fs.files'].delete_many({})
+
+    def reset_files(self):
+        self.client.drop_database('cosyma')
 
 
     def postDDModel(self, identifier, version, file):
