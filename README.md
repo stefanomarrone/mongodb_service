@@ -1,4 +1,4 @@
-# Cosyma Knowledge Base
+# Mongo Knowledge Base
 
 ## Description
 This repository is devoted to contain a sample API Python implementation to interface to a MongoDB server. The 
@@ -47,6 +47,12 @@ To run the program:
 
 ## API description 
 * **GET /clean**: clean the database
+* **POST /matforpat**: add the structure of the model describing the structure of a system to the repository *products* 
+  catalog of the database
+  * *configuration_name* - string: name of the configuration
+  * file to upload - containing the configuration of the **matforpat** tool to process 
+* **GET /matforpat**: retrieve a system model from the *products* catalog of the database
+  * *configuration_name* - string: nam of the configuration whose output are to retrieve
 * **POST /ddmodels**: add a keras binary model to the *models* catalog of the database
   * *identifier* - integer: identifier of the model
   * *version* - integer: version number of the model
@@ -63,17 +69,9 @@ To run the program:
   * *identifier* - integer: identifier of the model
   * *version* - integer: version number of the model
 
-* **POST /matforpat**: add the structure of the model describing the structure of a system to the repository *products* 
-  catalog of the database
-  * *configuration_name* - string: name of the configuration
-  * file to upload - containing the configuration of the **matforpat** tool to process 
-* **GET /matforpat**: retrieve a system model from the *products* catalog of the database
-  * *configuration_name* - string: nam of the configuration whose output are to retrieve
-
-
 ## Projects
-The repository has been developed in the context of the **Cosyma** project. This notwithstanding, the repository can be 
-used also for the **MatForPat** PRIN project.
+The repository has been developed in the context of the **MatForPat** PRIN project. This notwithstanding, the repository can be 
+used also for the **Cosyma** project.
 
 ## License
 The software is licensed under GPL 2.0
